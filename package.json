@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "@iconify-json/logos": "^1.1.42",
-    "@slidev/cli": "^0.48.7",
-    "slidev-theme-envek": "link:../slidev-theme-envek",
+    "@slidev/cli": "^0.48.9",
+    "slidev-theme-envek": "^1.0.0",
     "vue": "^3.4.21"
   },
   "devDependencies": {
-    "playwright-chromium": "^1.42.1"
+    "playwright-chromium": "^1.43.0"
   }
 }

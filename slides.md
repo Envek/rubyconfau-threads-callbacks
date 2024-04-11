@@ -9,6 +9,7 @@ info: |
   When you provide a block to a function in Ruby, do you know when and where that block will be executed? What is safe to do inside the block, and what is dangerous? Let’s take a look at various code examples and understand what dragons are hidden in Ruby dungeons.
 drawings:
   persist: false
+download: true
 mdc: true
 talkDurationMinutes: 28
 progressBarStartSlide: 2
@@ -97,53 +98,52 @@ Evil Martians is distributed web development agency helping companies all sizes 
 # Martian Open Source
 
 <div class="grid grid-cols-4 grid-rows-2 gap-4">
+  <a href="https://ruby-next.github.io/">
+    <figure>
+      <img alt="Ruby Next" src="/images/martian-oss/ruby-next.png" class="object-contain h-32 mx-auto" />
+      <figcaption>Ruby Next makes modern Ruby code run in older versions and alternative implementations</figcaption>
+    </figure>
+  </a>
   <a href="https://github.com/yabeda-rb/yabeda">
     <figure>
-      <img alt="Yabeda" src="/images/martian-oss/yabeda.svg" class="object-contain h-40 mx-auto" />
+      <img alt="Yabeda" src="/images/martian-oss/yabeda.svg" class="object-contain h-32 mx-auto" />
       <figcaption>Yabeda: Ruby application instrumentation framework</figcaption>
     </figure>
   </a>
   <a href="https://github.com/evilmartians/lefthook">
     <figure>
-      <img alt="LeftHook" src="/images/martian-oss/lefthook.svg" class="object-contain h-40 mx-auto" />
+      <img alt="LeftHook" src="/images/martian-oss/lefthook.svg" class="object-contain h-32 mx-auto" />
       <figcaption>Lefthook: git hooks manager</figcaption>
     </figure>
   </a>
   <a href="https://anycable.io/">
     <figure>
-      <img alt="AnyCable" src="/images/martian-oss/anycable.svg" class="object-contain h-40 mx-auto" />
+      <img alt="AnyCable" src="/images/martian-oss/anycable.svg" class="object-contain h-32 mx-auto" />
       <figcaption>AnyCable: Polyglot replacement for ActionCable server</figcaption>
     </figure>
   </a>
   <a href="https://postcss.org/">
     <figure>
-      <img alt="PostCSS" src="/images/martian-oss/postcss.svg" class="object-contain h-40 mx-auto" />
+      <img alt="PostCSS" src="/images/martian-oss/postcss.svg" class="object-contain h-32 mx-auto" />
       <figcaption>PostCSS: A tool for transforming CSS with JavaScript</figcaption>
     </figure>
   </a>
   <a href="https://imgproxy.net/">
     <figure>
-      <img alt="Imgproxy" src="/images/martian-oss/imgproxy-light.svg" class="object-contain h-40 mx-auto block dark:hidden" />
-      <img alt="Imgproxy" src="/images/martian-oss/imgproxy-dark.svg" class="object-contain h-40 mx-auto hidden dark:block" />
+      <img alt="Imgproxy" src="/images/martian-oss/imgproxy-light.svg" class="object-contain h-32 mx-auto block dark:hidden" />
+      <img alt="Imgproxy" src="/images/martian-oss/imgproxy-dark.svg" class="object-contain h-32 mx-auto hidden dark:block" />
       <figcaption>Imgproxy: Fast and secure standalone server for resizing and converting remote images</figcaption>
-    </figure>
-  </a>
-  <a href="https://logux.io/">
-    <figure>
-      <img alt="Logux" src="/images/martian-oss/logux-logo-light.svg" class="object-contain h-40 mx-auto block dark:hidden" />
-      <img alt="Logux" src="/images/martian-oss/logux-logo-dark.svg" class="object-contain h-40 mx-auto hidden dark:block" />
-      <figcaption>Logux: Client-server communication framework based on Optimistic UI, CRDT, and log</figcaption>
     </figure>
   </a>
   <a href="https://github.com/DarthSim/overmind">
     <figure>
-      <img alt="Overmind" src="/images/martian-oss/overmind.svg" class="object-contain h-40 mx-auto" />
+      <img alt="Overmind" src="/images/martian-oss/overmind.svg" class="object-contain h-32 mx-auto" />
       <figcaption>Overmind: Process manager for Procfile-based applications and tmux </figcaption>
     </figure>
   </a>
   <a href="https://evilmartians.com/oss">
     <figure>
-      <div class="h-40 text-2xl flex items-center justify-center">
+      <div class="h-32 text-2xl flex items-center justify-center">
         <qr-code-vue value="https://evilmartians.com/oss" class="object-contain w-full h-full mx-auto p-4 dark:invert" render-as="svg" margin="1" />
       </div>
       <figcaption style="font-size: 1rem; margin-top: 0; line-height: 1.25rem;">Even more at evilmartians.com/oss</figcaption>
@@ -173,7 +173,7 @@ layout: cover
 # Threads, <span v-mark.circle.orange>callbacks</span>, and <small class="text-90%">execution context in Ruby</small>
 
 <!--
-But let's get to view distortions, but now let's take a look at how programmers can sometimes misunderstand even most basic language constructs. Let's talk about callbacks. 
+But let's get to view distortions, but now let's take a look at how programmers can sometimes misunderstand even most basic language constructs. Let's talk about callbacks.
 -->
 
 ---
@@ -203,7 +203,7 @@ No, not Rails callbacks,<br />no-no-no!
 ---
 
 ## Let's talk about **blocks** as callbacks
-  
+
 
 <div class="grid grid-cols-2 grid-rows-1 gap-4">
 
@@ -258,12 +258,40 @@ end
 
 ## Blocks are called by methods
 
-![](/images/Ruby_under_a_microscope_calling_a_block.png){class="object-contain max-w-full max-h-80 mx-auto"}
+![](/images/Ruby_under_a_microscope_calling_a_block.png){class="object-contain max-w-full max-h-85 mx-auto"}
 
 
-Illustration from the [Ruby under a microscope](https://patshaughnessy.net/ruby-under-a-microscope) book.
+Illustration from the [Ruby under a microscope](https://patshaughnessy.net/ruby-under-a-microscope) book, chapter 2.
 
-<qr-code url="https://patshaughnessy.net/ruby-under-a-microscope" caption="Ruby under a microscope" class="w-36 absolute bottom-50px right-10px" />
+<qr-code url="https://patshaughnessy.net/ruby-under-a-microscope" caption="Ruby under a microscope" class="w-36 absolute bottom-50px right-40px" />
+
+
+---
+
+## And there is difference in performance
+
+Empty `while` loop is twice as faster than `times` with a block.
+
+```ruby {all}{class:'!children:text-xs'}
+Benchmark.ips do |x|
+  x.report("blocks") { 1_000_000.times { |i| i } }
+  x.report("while") { i = 0; while i < 1_000_000; i += 1; end  }
+end
+
+Warming up --------------------------------------
+              blocks     4.000 i/100ms
+               while     9.000 i/100ms
+Calculating -------------------------------------
+              blocks     40.186 (± 0.0%) i/s -    204.000 in   5.076671s
+               while     89.914 (± 1.1%) i/s -    450.000 in   5.005051s
+```
+
+However, **difference is negligible with real workloads**.
+
+And it is not a point of this talk…
+
+
+<!-- The point is… -->
 
 ---
 layout: statement
@@ -272,129 +300,142 @@ layout: statement
 
 # Blocks ARE callbacks
 
-We often use blocks as callbacks to _hook_ our own behavior for someone's else code.
+We often use blocks as callbacks to **hook** our own behavior for someone's else code.
 
 ---
+class: text-xl annotated-list
+---
 
-# Blocks in time and space
+## Blocks are closures as well
 
-<div class="text-2xl">
+<div class="grid grid-cols-2 grid-rows-1 gap-4">
 
-```ruby {1-11|7-9|1-5}
-def some_method(&block)
-  block.call
-  # and/or
-  @callbacks << block
-end
+<div>
 
-some_method do
-  puts "Hey, I was called!"
-end
+  - A Ruby code to execute
 
-# which one??? will it be called at all?
-```
+  - Environment to be executed in:
 
- - When does the block get executed?
- - And where?
- - How to understand?
+    Blocks can access local variables and `self` at the place where block was **created**
+
+<hr class="my-5">
+
+> …blocks have in some sense a dual personality. On the one hand, they behave like separate functions: you can call them and pass them arguments just as you would with any function. On the other hand, they are part of the surrounding function or method.
+>
+> _Ruby Under a Microscope_{class="text-sm block text-right"}
 </div>
 
----
-layout: statement
----
-
-# How to understand?
-
-When and where will the block be called?
-
-<v-click>
-<div class="text-center text-5xl mt-20 mb-8">
-
-No way to know! 😭
-
-</div>
-
-Well, except reading method documentation and source code.
-
-And memorize, memorize, and memorize.
-</v-click>
-
-
----
-
-## Blocks right here, right now
-
-<div class="text-2xl mt-10">
-
-All `Enumerable` methods are _sync_, and will call provided block during their execution.
-
-```ruby
-3.times do
-  puts "Hello, RubyConf Australia!"
-end
-```
-
-E.g. `times` will `yield` to the block on every iteration.
-
-</div>
-
----
-
-## Blocks can be called later
-
-<div class="text-2xl mt-10">
-
-Much later.
-
-```ruby
-after_commit do
-  puts "Hello, RubyConf Australia!"
-end
-```
-
-ActiveRecord callbacks and also `after_commit` from [after_commit_everywhere](https://github.com/Envek/after_commit_everywhere) gem will store callback proc in ActiveRecord internals for later.
-
-<a href="https://github.com/Envek/after_commit_everywhere"><img alt="after_commit_everywhere" src="/images/og-after_commit_everywhere.png" class="absolute bottom-0 object-contain max-w-50%" /></a>
-
-<qr-code url="https://github.com/Envek/after_commit_everywhere" caption="after_commit_everywhere" class="w-36 absolute bottom-10px right-10px" />
-
-</div>
-
----
-
-## Blocks can start new threads
-
-<div class="text-2xl mt-10">
-
-```ruby
-Thread.new do
-  puts "Hello from new thread!"
-  # Common process memory can be accessed
+```ruby {all|2-5|8-9}
+def greeter
+  conf = "RubyConf AU 2024"
+  proc do
+    puts "Hello #{conf}"
+  end
 end
 
-puts "Hello from the main thread"
-```
+greeter.call
+# => Hello RubyConf AU 2024
 
-or even processes:
-
-```ruby
-Process.fork do
-  puts "Hello from child process!"
-  # Parent process memory can't be accessed
-end
-
-puts "Hello from parent process"
+# LAMBDA CALCULUS FTW!!!!1
 ```
 
 </div>
+
+<!--
+
+First part is simple: you put instructions between `do` and `end`, and they become the block body.
+
+Environment is a bit more tricky: as you know,
+-->
+
+---
+class: text-xl annotated-list
+---
+
+## Blocks are closures as well
+
+  - A Ruby code to execute
+
+  - Environment to be executed in:
+
+    Blocks can access local variables, self, etc at the place where block was _created_
+
+<p class="mt-40 mx-auto px-4 py-2 text-red-500 text-center text-5xl font-bold">
+BUT
+</p>
+
+<p class="mt-20 mx-auto px-4 py-12 border-2 border-red-500 text-center text-xl font-bold">
+Some environments can be changed unexpectedly
+</p>
+
+---
+
+## Environment changes: `self`
+
+Most well-known example: `instance_exec`
+
+<div class="grid grid-cols-2 grid-rows-1 gap-4">
+
+```ruby {all|all|6-8|7|none|all|none|none}{at:'1'}
+class Conference
+  def title
+    "RubyConf AU 2024"
+  end
+
+  def say(&block)
+    puts instance_exec(&block)
+  end
+end
+```
+
+```ruby {all|none|none|none|all|4-8|6|none}{at:'1'}
+class Speaker
+  attr_reader :name, :conf
+
+  def greet
+    conf.say do
+      "Hello #{conf.title}, I'm #{name}"
+    end
+  end
+end
+```
+</div>
+
+<RenderWhen context="print">
+```text {all}{at:'1',class:'!children:text-base'}
+undefined local variable or method `conf' for an instance of Conference
+```
+<template #fallback>
+```text {hide|hide|hide|hide|hide|hide|hide|all}{at:'1',class:'!children:text-base'}
+undefined local variable or method `conf' for an instance of Conference
+```
+</template>
+</RenderWhen>
+---
+
+## Environment changes: local vars
+
+Someone can change variables enclosed in the block's environment…
+
+```ruby {all|none|1-6|8-12}
+conf = "RubyConf AU 2024"
+greeter = proc do
+  puts "Hello #{conf}"
+end
+greeter.call
+# => Hello RubyConf AU 2024
+
+# later…
+conf = "RubyConf AU 2025"
+greeter.call
+# => Hello RubyConf AU 2025
+```
 
 ---
 
 ## Blocks can be called from other threads
 
-<div class="text-2xl mt-10">
-
-```ruby {1-14|1,5|3,9|1,5,9|4,9,12|1-14}
+```ruby {1-14|1,5|3,9|1,5,9|4,9,12|1-14}{class:'!children:text-sm'}
 result = []
 
 work = proc do |arg|
@@ -412,15 +453,14 @@ work.call "main thread"
 ```
 
 Can you feel how thread-safety problems are coming?
-</div>
 
 ---
 
 ## Different threads
 
-E.g. concurrent-ruby `Promise` uses thread pools to execute blocks.
+What if we have some units of work that relies on thread local state…
 
-```ruby {1-20|2,8|1-5|7-11|13-16|18-20}
+```ruby {all|2,8|1-5|7-11}
 work1 = proc do
   Thread.current[:state] ||= 'work1'
   raise "Unexpected!" if Thread.current[:state] != 'work1'
@@ -432,7 +472,15 @@ work2 = proc do
   raise "Unexpected!" if Thread.current[:state] != 'work2'
   SecureRandom.hex(8)
 end
+```
 
+---
+
+## Different threads
+
+And then try to execute them using concurrent-ruby `Promise` that utilizes thread pools to execute blocks…
+
+```ruby {all|1-4|6-8}
 promises = 100.times.flat_map do
   Concurrent::Promise.execute(&work1)
   Concurrent::Promise.execute(&work2)
@@ -447,8 +495,6 @@ Concurrent::Promise.zip(*promises).value!
 
 ## Example: NATS client
 
-<div class="text-2xl mt-10">
-
 NATS is a modern, simple, secure and performant message communications system for microservice world.
 
 ```ruby
@@ -459,13 +505,58 @@ nats.subscribe("service") do |msg|
 end
 ```
 
-In current versions every subscription is executed in its own separate thread.
-</div>
+In earlier versions every subscription was executed in its own separate thread.
 
-<a href="https://github.com/nats-io/nats-pure.rb"><img alt="nats-pure.rb" src="/images/og-nats-pure.png" class="absolute bottom-0 object-contain max-w-50%" /></a>
+<a href="https://github.com/nats-io/nats-pure.rb"><img alt="nats-pure.rb" src="/images/og-nats-pure.png" class="absolute bottom-0 object-contain max-h-36" /></a>
 
 <qr-code url="https://github.com/nats-io/nats-pure.rb" caption="nats-pure gem" class="w-36 absolute bottom-10px right-10px" />
 
+---
+
+## Example: NATS client
+
+<div class="grid grid-cols-2 gap-4">
+
+<div>
+
+Before:
+
+```ruby {all}{class:'!children:text-sm'}
+def subscribe(topic, &callback)
+  # Sent subscribe request to NATS
+  Thread.new do
+    while msg = message_queues[topic].pop do
+      callback.call(msg)
+    end
+  end
+end
+
+while msg = incoming_messages.pop do
+  message_queues[msg.topic].push(msg)
+end
+```
+</div>
+
+<div>
+
+After:
+
+```ruby {all}{class:'!children:text-sm'}
+def subscribe(topic, &callback)
+  # Sent subscribe request to NATS
+  callbacks[topic] = callback
+end
+
+
+
+while msg = incoming_messages.pop
+  Concurrent::Promise.execute do
+    callbacks[topic].call(msg)
+  end
+end
+```
+</div>
+</div>
 ---
 layout: image
 image: /images/nats-pure-thread-pool-pull-request.png
@@ -491,7 +582,7 @@ end
 
 Q: So, can I?
 
-A: It depends on gem version! 🤯
+A: It depends on gem version! 🤯 <small>(you could before version 2.3.0)</small>
 </div>
 
 Hint: better not to anyway!
@@ -500,16 +591,13 @@ Hint: better not to anyway!
 
 ## Where you can find thread pools?
 
-<div class="mt-15 text-3xl">
-
 - Puma
 - Sidekiq
 - ActiveRecord `load_async`
-- NATS client (new!)
+- NATS client
 - …and many more
 
-</div>
-<div class="mt-15 text-xl">
+<div class="mt-10 text-xl">
 
 Good thing is that you don't have to care about them most of the time.
 
@@ -521,15 +609,16 @@ Good thing is that you don't have to care about them most of the time.
 
 # Recap
 
-<div class="mt-15 text-2xl">
+<div class="mt-5 text-2xl">
 
 - Blocks are primarily used as callbacks
 - Blocks can be executed in a different threads
 - And this thread can be different each time!
   - Think twice before using `Thread.current`
 - Blocks can be executed with a different receiver
+- Even captured local variables can be changed
 
-<hr class="my-15" />
+<hr class="my-5" />
 
 **And you have to remember that!** {class="text-3xl"}
 
