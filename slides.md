@@ -72,8 +72,28 @@ Hi, I'm Andrey
 </div>
 
 <!--
+My name is Andrey, I initially is from Russia, but recently, in 2022, I moved to Japan, partly because of _reasons_, and happily reside since then, enjoying Japanese order and safety. So if you're thinking about living in Japan, let's chat about it after the talk, I've got some expirience to share.
+-->
 
-My name is Andrey, I initially is from Russia, but in 2022 I moved to Japan where happily reside since then. And I'm very happy to finally get to Australia. And you know what? I thought that Japan and Australia are closer to each other than they are. But Pacific ocean is really huge. This kind of world view distortion is bugging me a lot.
+---
+layout: image
+image: ./images/worldmap.png
+---
+
+
+<!--
+And I'm very happy to finally get to Australia. And when I saw RubyConf Australia Call for speakers I looked at this Mercator-distorted world map and thought: “Wow, Japan and Australia seems to be not so far from each other… ”
+-->
+
+---
+layout: image
+image: ./images/distance-sydney-osaka.png
+---
+
+<!--
+And, well, relatively, yes. But Pacific ocean is so huge, and Australia itself is so massive. It is almost 8 thousand kilometers from Sydney to Osaka!
+
+This kind of world view distortion caused by the fact that we are so used to maps based on Mercator projection which makes everything closer to the poles much bigger than it is. It is bugging me a lot.
 -->
 
 ---
@@ -87,10 +107,11 @@ My name is Andrey, I initially is from Russia, but in 2022 I moved to Japan wher
 
 <!--
 
-And, I have to confess, I'm an alien. An Evil Martian agent here on Earth. I came to you from northern hemisphere with peace.
+And, I have to confess, actually I'm an alien. An Evil Martian agent here on Earth.
 
-Evil Martians is distributed web development agency helping companies all sizes to live and prosper, we help small startups grow effectively, big enterprises to speed-up their monoliths and test hypotheses. And we focusing on developer tools, open source, and effective software development practices.
+Evil Martians is distributed web development agency helping companies all sizes to live and prosper, we help small startups grow effectively, big enterprises to speed-up their monoliths and test hypotheses. And we are focusing on developer tools, open source, and effective software development practices.
 
+Australia is still is a terra incognita for us and we are looking forward to help Australian companies to build better software. So, if you need help with performance, scaling, architecture, implementing best practices, or just need to strengthen your team with experienced engineers, feel free to reach out to us, we now have a few engineers in Japan, me included, in almost the same timezone as yours.
 -->
 
 ---
@@ -162,7 +183,9 @@ Evil Martians is distributed web development agency helping companies all sizes 
 </style>
 
 <!--
-And for many years we've created a ton of open source products, big and small, famous and not so. Very probably your project will depend on a handful of martian open source Ruby gems.
+One thing that we like is Open Source. And for many years we've created literally over a hundred of open source products, big and small, famous and not so. I personally made Yabeda, a mini framework for instrumenting Ruby applications for better monitoring and observability.
+
+Very probably your application already depends on a few martian Ruby gems.
 -->
 
 
@@ -173,7 +196,7 @@ layout: cover
 # Threads, <span v-mark.circle.orange>callbacks</span>, and <small class="text-90%">execution context in Ruby</small>
 
 <!--
-But let's get to view distortions, but now let's take a look at how programmers can sometimes misunderstand even most basic language constructs. Let's talk about callbacks.
+But let's get to view distortions, but now let's take a look at how we, programmers, can sometimes undervalue even most basic language constructs, just because we are so used to them. Let's talk about callbacks in Ruby.
 -->
 
 ---
@@ -198,7 +221,7 @@ No, not Rails callbacks,<br />no-no-no!
 </v-click>
 </div>
 
-<!-- No, not these callbacks! I know many people have had bad experience with them, me included. -->
+<!-- What callbacks? No, not these callbacks! I know many people have had bad experience with them, me included, but this is a whole separate topic, I only want you **not** to do how in this example, never ever. Please use ActiveRecord callbacks only for keeping data consistency. -->
 
 ---
 
@@ -207,7 +230,7 @@ No, not Rails callbacks,<br />no-no-no!
 
 <div class="grid grid-cols-2 grid-rows-1 gap-4">
 
-```ruby {1-5}{class:'!children:text-xl'}
+```ruby {all}{class:'!children:text-xl'}
 
 3.times do
   puts "Hello RubyConf AU!"
@@ -215,7 +238,7 @@ No, not Rails callbacks,<br />no-no-no!
 end
 ```
 
-```ruby {1-5}{class:'!children:text-xl'}
+```ruby {all}{class:'!children:text-xl'}
 i = 0
 while i < 3
   puts "Hello RubyConf AU!"
@@ -235,6 +258,9 @@ WRONG!
 
 </v-click>
 
+<!-- Let's talk about Ruby blocks. I believe that it is so idiomatic and so common to use `times` method on integers in case if something needed to be repeated several times, that no one really realize,  that while it does the job, [click] it is technically is very different from `for` loop in Ruby and other languages as well.
+-->
+
 ---
 
 ## Blocks are separate pieces of code
@@ -243,7 +269,7 @@ WRONG!
 
 Block is separate entity, that is passed to `times` method as an argument and got **called** by it.
 
-```ruby
+```ruby{all|1-3|5-7}
 greet = proc do
   puts "Hello, RubyConf Australia!"
 end
@@ -253,6 +279,10 @@ end
 3.times(&greet)
 ```
 </div>
+
+<!--
+Block in Ruby isn't just a sequence of instructions between `do` and `end`, but internally is much more similar to functions or methods. [click] You declare a block, [click] and then it got called by `times` method.
+-->
 
 ---
 
@@ -265,6 +295,11 @@ Illustration from the [Ruby under a microscope](https://patshaughnessy.net/ruby-
 
 <qr-code url="https://patshaughnessy.net/ruby-under-a-microscope" caption="Ruby under a microscope" class="w-36 absolute bottom-50px right-40px" />
 
+<!--
+And internally executing a block is very much the same as calling method: CRuby needs to create a special C data structure, push it to the stack along with parameters, if any, move code sequence pointer there. A lot.
+
+I won't deep dive into internals today, instead I would recommend you to read awesome book called “Ruby Under a Microscope” – it is really enlightening reading, if you are familiar with how computers work on a low level.
+-->
 
 ---
 
@@ -291,7 +326,11 @@ However, **difference is negligible with real workloads**.
 And it is not a point of this talk…
 
 
-<!-- The point is… -->
+<!--
+All these extra steps to execute a block of course make it a bit slower than just a `for` loop. But in real world applications, where you have to do some work in a loop, something more than just incrementing a counter, this difference is negligible. Don't sacrifice readability by looking on micro-benchmark results. And it also not is the point of this talk either.
+
+The point is…
+-->
 
 ---
 layout: statement
@@ -301,6 +340,10 @@ layout: statement
 # Blocks ARE callbacks
 
 We often use blocks as callbacks to **hook** our own behavior for someone's else code.
+
+<!--
+that in Ruby blocks are used as callbacks. If, for example, in JavaScript or Go you would pass a function as an argument to another function, Ruby has a special entity and special syntax for that.
+-->
 
 ---
 class: text-xl annotated-list
@@ -343,9 +386,15 @@ greeter.call
 
 <!--
 
+What is important to know, is that a block is more than just a kind-of function. It is also a closure.
+
+Every Ruby block can represented as consisting of two parts: the code to execute and the environment where this code should be executed.
+
 First part is simple: you put instructions between `do` and `end`, and they become the block body.
 
-Environment is a bit more tricky: as you know,
+Environment is a bit more tricky: [click] block remembers all local variables that were defined before its definition. Also it remembers object in that scope it was created, the `self` object.
+
+[click] And when you call a block, it executes in this context, magically referencing variables defined very far away (and far ago) from the place it was executed.
 -->
 
 ---
@@ -368,15 +417,17 @@ BUT
 Some environments can be changed unexpectedly
 </p>
 
+<!-- **But**, this environment isn't immutable, it can be changed. Moreover, there are more things that can be included into the term “environment”. -->
+
 ---
 
 ## Environment changes: `self`
 
-Most well-known example: `instance_exec`
+`instance_exec` and `class_exec`
 
 <div class="grid grid-cols-2 grid-rows-1 gap-4">
 
-```ruby {all|all|6-8|7|none|all|none|none}{at:'1'}
+```ruby {all|all|6-8|7|none|none|none|none|none}{at:'1'}
 class Conference
   def title
     "RubyConf AU 2024"
@@ -388,7 +439,7 @@ class Conference
 end
 ```
 
-```ruby {all|none|none|none|all|4-8|6|none}{at:'1'}
+```ruby {all|none|none|none|all|4-8|6|none|2,6}{at:'1'}
 class Speaker
   attr_reader :name, :conf
 
@@ -406,18 +457,26 @@ end
 undefined local variable or method `conf' for an instance of Conference
 ```
 <template #fallback>
-```text {hide|hide|hide|hide|hide|hide|hide|all}{at:'1',class:'!children:text-base'}
+```text {hide|hide|hide|hide|hide|hide|hide|all|all}{at:'1',class:'!children:text-base'}
 undefined local variable or method `conf' for an instance of Conference
 ```
 </template>
 </RenderWhen>
+
+<!--
+Most frequently changed thing is the binding, the `self` object. Usually it is done on purpose, to allow building nice domain-specific languages. However, if you don't aware, that method that receives your block will use `instance_exec` you will be surprised by cryptic messages about undefined methods.
+
+[click] For example, [click] let's take a look at a method, that receives a block, [click] and executes it in the context of method's object. [click]
+
+[click] If the code using this API will try to define a block, [click] that uses `self` of the block creation place, [click] it will fail with mysterious error message, complaining that it can't find the code that obviously [click] is right here.
+-->
 ---
 
 ## Environment changes: local vars
 
 Someone can change variables enclosed in the block's environment…
 
-```ruby {all|none|1-6|8-12}
+```ruby {all|1-6|8-12}
 conf = "RubyConf AU 2024"
 greeter = proc do
   puts "Hello #{conf}"
@@ -431,11 +490,20 @@ greeter.call
 # => Hello RubyConf AU 2025
 ```
 
+<!--
+
+Okay, you can think that as block is a closure, you can save current `self` into a local variable. But they are not reliable either.
+
+[click] Say, you have a block that uses a local variable, [click] and then you reassign this variable, and then you call the block again. **But** you will see that block that was defined earlier, will use the new value of the variable, not the one it was created with.
+
+This behaviour is truly mind-blowing, but valid.
+-->
+
 ---
 
 ## Blocks can be called from other threads
 
-```ruby {1-14|1,5|3,9|1,5,9|4,9,12|1-14}{class:'!children:text-sm'}
+```ruby {all}{class:'!children:text-sm'}
 result = []
 
 work = proc do |arg|
@@ -453,6 +521,14 @@ work.call "main thread"
 ```
 
 Can you feel how thread-safety problems are coming?
+
+<!--
+Let's get explore other things that we can include into the term “environment”. One example of this is the current thread that is executing the block.
+
+Fun fact, that thread creation itself uses blocks to define a body of the new thread.
+
+Anyway, you can call a block from different threads, even from multiple threads at the same time, and enclosed variables will be accessible. And it is fine as long as you don't try to mutate these shared objects.
+-->
 
 ---
 
@@ -474,13 +550,15 @@ work2 = proc do
 end
 ```
 
+<!-- The real problems will arise if you will try to rely on a thread-local data from a block that can be executed from different threads. -->
+
 ---
 
 ## Different threads
 
 And then try to execute them using concurrent-ruby `Promise` that utilizes thread pools to execute blocks…
 
-```ruby {all|1-4|6-8}
+```ruby {all}
 promises = 100.times.flat_map do
   Concurrent::Promise.execute(&work1)
   Concurrent::Promise.execute(&work2)
@@ -490,6 +568,12 @@ Concurrent::Promise.zip(*promises).value!
 #=> Unexpected! (RuntimeError)
 # But it also might be okay (chances are low though)
 ```
+
+<!--
+Because there is no guarantee that the same thread will be used to execute the block, especially if you use higher-level concurrencty primitives like thread pools or promises from the `concurrent-ruby` gem.
+
+Or, most probably if some library uses them internally, and you don't aware of that…
+-->
 
 ---
 
@@ -511,6 +595,17 @@ In earlier versions every subscription was executed in its own separate thread.
 
 <qr-code url="https://github.com/nats-io/nats-pure.rb" caption="nats-pure gem" class="w-36 absolute bottom-10px right-10px" />
 
+<!--
+And this is not a theoretical problem.
+
+For example, let's take a look to NATS client for Ruby, `nats-pure` gem. It uses blocks as a callbacks to process incoming messages from subscriptions.
+
+Okay, what is NATS? Who knows?
+
+It is a performant and simple to set up message broker written in Go. It is very fast, very simple, and have many features aside of pub/sub. NATS is nice.
+
+-->
+
 ---
 
 ## Example: NATS client
@@ -521,7 +616,7 @@ In earlier versions every subscription was executed in its own separate thread.
 
 Before:
 
-```ruby {all}{class:'!children:text-sm'}
+```ruby {all|all|none}{class:'!children:text-sm'}
 def subscribe(topic, &callback)
   # Sent subscribe request to NATS
   Thread.new do
@@ -541,7 +636,7 @@ end
 
 After:
 
-```ruby {all}{class:'!children:text-sm'}
+```ruby {all|none|all}{class:'!children:text-sm'}
 def subscribe(topic, &callback)
   # Sent subscribe request to NATS
   callbacks[topic] = callback
@@ -557,10 +652,27 @@ end
 ```
 </div>
 </div>
+
+<!--
+So, [click] before version 2.3.0, NATS Ruby client executed every subscription callback in its own separate thread. And if you would try to use `Thread.current` in the callback, it would work then.
+
+But then I came there and… [click] changed implementation to use a thread pool, and now every callback is executed in some thread from the pool. And you can't rely on `Thread.current` anymore.
+-->
+
 ---
 layout: image
 image: /images/nats-pure-thread-pool-pull-request.png
 ---
+
+<!--
+Why I did that? Because of performance, of course!
+
+As you should know, context switching is **very** expensive operation, and creating a new thread for every subscription to handle occasionally received messages is a waste of resources.
+
+Moreover, there is a limit on number of threads that can be created in a process, and if you have a lot of subscriptions, you can easily hit this limit. On my machine, Ruby crashed after around 30_000 threads were created.
+
+With fixed size thread pool, you can control the number of threads, and reuse them, and avoid context switching overhead. My benchmarks showed that for tens of thousands of subscriptions, thread pool is several times faster than individual threads, solely by reducing context switching overhead.
+-->
 
 ---
 
@@ -587,6 +699,14 @@ A: It depends on gem version! 🤯 <small>(you could before version 2.3.0)</smal
 
 Hint: better not to anyway!
 
+<!--
+After this change got merged I started to think about whether behaviour of the NATS client changed or not. And I realized that it did, and, frankly speaking, it could be a breaking change, but only if this behaviour was specified somewhere.
+
+But I couldn't find it anywhere, so it can be treated as a mere internal implementation detail… 🤷‍♂️
+
+Hopefully no one used `Thread.current` in the NATS callbacks, it seem to be not that common technique anyway.
+-->
+
 ---
 
 ## Where you can find thread pools?
@@ -604,6 +724,34 @@ Good thing is that you don't have to care about them most of the time.
 **Pro Tip:** In Rails use `ActiveSupport::CurrentAttributes` instead of `Thread.current`!
 
 </div>
+
+<!--
+What is important to understand, in my opinion, is that in real world applications, your code is working inside of some thread pool, will it be Puma application server or Sidekiq worker, so… just don't use `Thread.current`.
+
+Use “current attributes” in Rails instead, for example.
+-->
+
+---
+layout: statement
+---
+
+# How to understand?
+
+When and where and how a block will be called?
+
+<v-click>
+<div class="text-center text-5xl mt-20 mb-8">
+
+No easy way to know! 😭
+
+</div>
+
+Only by reading API documentation and source code.
+</v-click>
+
+<!--
+But the real problem in this is that there is no easy way to understand, whether block will be executed within `instance_exec`, or in a separate thread, or will it be executed at all.
+-->
 
 ---
 
@@ -623,6 +771,10 @@ Good thing is that you don't have to care about them most of the time.
 **And you have to remember that!** {class="text-3xl"}
 
 </div>
+
+<!--
+I hope that you enjoyed my little tour into the Ruby blocks world. And may the new knowledge help you to avoid some bugs in your future code.
+-->
 
 ---
 
@@ -675,3 +827,15 @@ Our awesome blog: [evilmartians.com/chronicles](https://evilmartians.com/chronic
   ul { list-style-type: none !important; }
   ul li { margin-left: 0; padding-left: 0; }
 </style>
+
+<!--
+Please check out Evil Martians blog, we have a lot of interesting articles about Ruby, Rails, frontend, design and other things.
+
+Also, I have Martian stickers, so find me after the talk and grab one. And also let's have chat about anything: be it Ruby or Japan or motorcycles…
+
+Don't hesitate to reach me in social media and ask questions after the conference.
+
+Thank you a lot for your attention! Thanks to Ruby Australia for organizing this amazing event, choosing this talk and giving me a chance to speak here.
+
+And let the lunch begin!
+-->
